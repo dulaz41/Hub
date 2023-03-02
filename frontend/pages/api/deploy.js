@@ -68,6 +68,7 @@ async function deploy() {
             await minHub.deployed();
             console.log("Deployed");
             console.log(minHub.address);
+            setNftAddress(minHub.address)
            } catch (err) {
             console.log(err);
            }
@@ -80,7 +81,7 @@ async function deploy() {
 /*
 // Testing the mint function
 
-const contractAddr = "0xa25b88e9619dfe41c89b7371844a658e7a2b6c55";
+const contractAddr = "NftAddress";
 async function mint() {
     if (window.ethereum) {
         try {

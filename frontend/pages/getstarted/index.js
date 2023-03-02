@@ -4,6 +4,7 @@ import logo from './images/minhub.png';
 import btnlogo from './images/fantom.png';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { providers } from 'ethers';
 
 export default function started() {
   const [isConnected, setIsConnected] = useState(false);
@@ -11,6 +12,10 @@ export default function started() {
 
   const handleClick = async () => {
     try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0xfa2' }],
+      })
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
         params: [
@@ -32,8 +37,29 @@ export default function started() {
       setAccount(account);
    
       console.log(account);
-    } catch (error) {
-      console.error(error);
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+            await provider.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                    {
+                        chainId: '0xfa2',
+                        chainName: 'Fantom Opera Testnet',
+                        nativeCurrency: {
+                            name: 'Fantom',
+                            symbol: 'FTM',
+                            decimals: 18,
+                        },
+                        rpcUrls: ['https://rpc.testnet.fantom.network'],
+                    },
+                ],
+            });
+        } catch (addError) {
+            // handle "add" error
+            console.log(addError);
+        }
+      }
     }
   };
 
