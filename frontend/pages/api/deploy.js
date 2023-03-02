@@ -12,8 +12,8 @@ const [isConnected, setIsConnected] = useState();
   const [contract, setContract] = useState();
 
   const connectWallet = async () => {
-    if (klaytn) {
-      const accounts = klaytn.enable()
+    if (window.ethereum) {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       console.log({ account: accounts[0] });
       setIsConnected(true);
     } else {
@@ -24,7 +24,7 @@ const [isConnected, setIsConnected] = useState();
   const createNft = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const factory = new ContractFactory(nft.abi, nft.bytecode, signer);
+    const factory = new ContractFactory(nft.abi, nft.object, signer);
 
     // If your contract requires constructor args, you can specify them here
     const contract_new = await factory.deploy(
@@ -40,39 +40,72 @@ const [isConnected, setIsConnected] = useState();
   createNft()
   return;
 }
+
+
+
+//  Deploy function
+let account;
+async function deploy() {
+    if (window.ethereum) {
+        try {
+            const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+            console.log("found an account:", accounts[0]);
+            account = accounts[0];
+
+            // deploying
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            console.log(signer);
+            const minHubContract = new ethers.ContractFactory(nft.abi, nft.object, signer);
+            console.log("Created Contract");
+            const minHub = await minHubContract.deploy(
+              nftName,
+              nftSymbol,
+              initBaseURL,
+              initNotRevealedUri);
+            
+            console.log("Awaiting deploy");
+            await minHub.deployed();
+            console.log("Deployed");
+            console.log(minHub.address);
+           } catch (err) {
+            console.log(err);
+           }
+    } else {
+        window.alert("Please connect Metamask")
+    }
+}
+
+
 /*
-const caver = new Caver(klaytn)
+// Testing the mint function
 
-const myContract = new caver.klay.Contract(contractABI)
+const contractAddr = "0xa25b88e9619dfe41c89b7371844a658e7a2b6c55";
+async function mint() {
+    if (window.ethereum) {
+        try {
+            const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+            console.log("found an account:", accounts[0]);
+            account = accounts[0];
 
-myContract.deploy({
-    data: '0x12345...',
-    arguments: [123, 'My String']
-  })
-  .send({
-    from: klaytn.selectedAddress,
-    gas: 1500000,
-    value: 0,
-  }, function(error, transactionHash) { ... })
-  .on('error', function(error) { ... })
-  .on('transactionHash', function(transactionHash) { ... })
-  .on('receipt', function(receipt) {
-    console.log(receipt.contractAddress) // contains the new contract address
-   })
-  .then(function(newContractInstance) {
-    console.log(newContractInstance.options.address) // instance with the new contract address
-  });
+            // interacting
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            console.log(signer);
+
+            const minC = new ethers.Contract(contractAddr, abi, signer);
+            const minttx = await minC.mint(2);
+            await minttx.wait();
+            console.log(minttx);
 
 
+        } catch (err) {
+            console.log(err);
+           }
 
-  const myContract1 = new caver.klay.Contract(contractABI, contractAddress)
-  
-  myContract.methods.transfer(
-    to, caver.utils.toPeb(amount, 'KLAY')
-  ).send({from: klaytn.selectedAddress},
-    function(error, transactionHash) {
-      ...
-    });
+    } else {
+
+    }
+}
 
 */
-
