@@ -16,8 +16,38 @@ export default async function uploadNFTData(image, values) {
    image: imageFile,
  });
 
-console.log(metadata.url)
+  console.log(metadata);
 
+  if (window.ethereum) {
+      try {
+          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          console.log("found an account:", accounts[0]);
+          const account = accounts[0];
+
+          // deploying
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          console.log(signer);
+          //import nft from "./utils/MinHub.json";
+          const minHubContract = new ethers.ContractFactory(nft.abi, nft.object, signer);
+          console.log("Created Contract");
+          const minHub = await minHubContract.deploy(
+            nftName,
+            nftSymbol,
+            metadata.url,
+            metadata.url);
+          
+          console.log("Awaiting deploy");
+          await minHub.deployed();
+          console.log("Deployed");
+          console.log(minHub.address);
+          setNftAddress(minHub.address)
+         } catch (err) {
+          console.log(err);
+         }
+  } else {
+      window.alert("Please connect Metamask")
+  }
 }
 
 // returns the cid and metadata url

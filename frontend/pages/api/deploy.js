@@ -44,13 +44,12 @@ const [isConnected, setIsConnected] = useState();
 
 
 //  Deploy function
-let account;
-async function deploy() {
+async function deploy(nft, nftName, nftSymbol, initBaseURL, initNotRevealedUri) {
     if (window.ethereum) {
         try {
             const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
             console.log("found an account:", accounts[0]);
-            account = accounts[0];
+            const account = accounts[0];
 
             // deploying
             const provider = new ethers.providers.Web3Provider(window.ethereum);

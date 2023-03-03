@@ -6,7 +6,7 @@ describe("HelloWorld", function () {
   let MinHubContract: MinHub;
 
   beforeEach(async function () {
-    const minHubFactory = await ethers.getContractFactory("MinHub");
+    const minHubFactory = await ethers.getContractFactory("MinHubs");
 
     // MinHubContract = (await minHubFactory.deploy()) as MinHub;
 
