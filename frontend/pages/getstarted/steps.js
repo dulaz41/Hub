@@ -531,9 +531,13 @@ export function Step7({ metadata, token, name, nftAddress, formik }) {
             <h3 className="text-md text-slate-400 pb-8 pt-3 my-2">
               Contract Address
             </h3>
-            <p className="text-sm text-slate-50 my-2 mx-3 text-left">
+            <a
+              target="_blank"
+              href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+              className="text-sm text-slate-50 my-2 mx-3 text-left hover:underline hover:text-blue-600 "
+            >
               {nftAddress}
-            </p>
+            </a>
           </div>
           <div>
             <h3 className="text-md text-slate-400 pb-2 pt-3 my-2">
@@ -543,7 +547,13 @@ export function Step7({ metadata, token, name, nftAddress, formik }) {
             <h3 className="text-md text-slate-400 pb-3 pt-3 my-2">
               Metadata URL
             </h3>
-            <p className="text-xs text-slate-50  text-left">{metadata.url}</p>
+            <a
+              target="_blank"
+              href={`https://ipfs.io/${metadata.url}`}
+              className="text-xs text-slate-50 pt-4 text-left hover:underline hover:text-blue-600"
+            >
+              {metadata.url}
+            </a>
           </div>
         </div>
 
