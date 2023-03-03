@@ -14,6 +14,8 @@ import { useFormik } from "formik";
 import { NFTStorage, File } from "nft.storage";
 import { useRouter } from "next/router";
 import * as yup from "yup";
+import { ContractFactory, ethers } from "ethers";
+import nft from "../../utils/MinHub.json";
 
 const features = {
   categories: [
@@ -40,6 +42,7 @@ const Form = () => {
   const [metadata, setMetadata] = useState({});
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
+  const [nftAddress, setNftAddress] = useState("");
 
   const router = useRouter();
 
@@ -89,16 +92,49 @@ const Form = () => {
           token: values.token,
           image: imageFile,
         });
+        if (window.ethereum) {
+          try {
+            // deploying
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            console.log(signer);
+            //import nft from "./utils/MinHub.json";
+            const minHubContract = new ethers.ContractFactory(
+              nft.abi,
+              nft.object,
+              signer
+            );
+            console.log("Created Contract");
+            const minHub = await minHubContract.deploy(
+              name,
+              token,
+              metadata.url,
+              metadata.url
+            );
+
+            console.log("Awaiting deploy");
+            await minHub.deployed();
+            console.log("Deployed");
+            console.log(minHub.address);
+            setNftAddress(minHub.address);
+          } catch (err) {
+            console.log(err);
+          }
+          setSubmitting(false);
+        } else {
+          window.alert("Please connect Metamask");
+        }
 
         console.log(metadata.url);
-        setStatus("Upload successful");
+        await setStatus("Upload successful");
         setMetadata(metadata);
         setName(metadata.data.name);
         setToken(metadata.data.token);
+
         setCurrentStep(6);
       } catch (error) {
         console.error(error);
-        setStatus("Upload failed");
+        await setStatus("Upload failed");
       }
       setSubmitting(false);
     },
@@ -286,10 +322,21 @@ const Form = () => {
           {currentStep === 4 && <Step4 formik={formik} />}
           {currentStep === 5 && <Step5 formik={formik} />}
           {currentStep === 6 && (
-            <Step6 setCurrentStep={setCurrentStep} currentStep={currentStep} />
+            <Step6
+              setCurrentStep={setCurrentStep}
+              nftAddress={nftAddress}
+              currentStep={currentStep}
+              formik={formik}
+            />
           )}
           {currentStep === 7 && (
-            <Step7 metadata={metadata} name={name} token={token} />
+            <Step7
+              metadata={metadata}
+              nftAddress={nftAddress}
+              name={name}
+              token={token}
+              formik={formik}
+            />
           )}
           {currentStep === 8 && <Step8 />}
 

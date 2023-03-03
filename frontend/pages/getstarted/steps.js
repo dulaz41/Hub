@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import pinata from './images/pinata.png';
-import NFTstorage from './images/NFTstorage.png';
-import Image from 'next/image';
+import Link from "next/link";
+import pinata from "./images/pinata.png";
+import NFTstorage from "./images/NFTstorage.png";
+import Image from "next/image";
 
 export function Step1({ formik }) {
   return (
@@ -80,7 +80,7 @@ export function Step1({ formik }) {
             Website
           </label>
           <p className="text-sm text-slate-400 my-2">
-            This is the URl in which minters can learn about your project{' '}
+            This is the URl in which minters can learn about your project{" "}
           </p>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-600 leading-tight focus:outline-none focus:shadow-outline"
@@ -141,7 +141,7 @@ export function Step2({ formik }) {
           />
           <p className="text-sm text-slate-400 pt-3 my-2">
             Specify the maximum number of NFTs that can be minted per
-            transaction. This can be updated at any time after deployment.{' '}
+            transaction. This can be updated at any time after deployment.{" "}
           </p>
         </div>
         <div className="mb-4 mt-5 border shadow-md p-5 rounded-lg">
@@ -421,7 +421,7 @@ export function Step5({ formik }) {
   );
 }
 
-export function Step6({ setCurrentStep }) {
+export function Step6({ setCurrentStep, nftAddress, formik }) {
   return (
     <>
       <h1 className="text-3xl text-slate-50 font-medium mb-4 ml-4 -mt-5">
@@ -466,16 +466,26 @@ export function Step6({ setCurrentStep }) {
       <div className="text-center flex items-center justify-center">
         <h1 className="text-green-400 font-semibold">Deploy done</h1>
       </div>
+
       <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 gap-4">
         <div className="mb-4 mt-11  ">
           <p className="text-sm text-slate-400 my-2 text-center">
             Your contract on Fantom Scan
           </p>
           <div className="text-center flex items-center justify-center">
-            <Link href="#">
-              <button className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg">
+            <Link
+              href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+              passHref
+              legacyBehavior
+            >
+              <a
+                target="_blank"
+                href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+                className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg"
+                disabled={formik.isSubmitting}
+              >
                 Fantom Scan
-              </button>
+              </a>
             </Link>
           </div>
         </div>
@@ -486,7 +496,10 @@ export function Step6({ setCurrentStep }) {
           </p>
           <div className="text-center flex items-center justify-center">
             <Link href="#" onClick={() => setCurrentStep(7)}>
-              <button className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg">
+              <button
+                className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg"
+                disabled={formik.isSubmitting}
+              >
                 Dashboard
               </button>
             </Link>
@@ -497,7 +510,7 @@ export function Step6({ setCurrentStep }) {
   );
 }
 
-export function Step7({ metadata, token, name }) {
+export function Step7({ metadata, token, name, nftAddress, formik }) {
   return (
     <>
       <h1 className="text-4xl text-slate-50 font-medium mb-4 ml-4 -mt-5">
@@ -518,7 +531,9 @@ export function Step7({ metadata, token, name }) {
             <h3 className="text-md text-slate-400 pb-8 pt-3 my-2">
               Contract Address
             </h3>
-            <p>{}</p>
+            <p className="text-sm text-slate-50 my-2 mx-3 text-left">
+              {nftAddress}
+            </p>
           </div>
           <div>
             <h3 className="text-md text-slate-400 pb-2 pt-3 my-2">
@@ -541,7 +556,10 @@ export function Step7({ metadata, token, name }) {
             Withdraw your contract revenue here.
           </p>
           <Link href="#">
-            <button className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-medium text-slate-50 leading-tight  hover:shadow-outline active:shadow-lg">
+            <button
+              className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-medium text-slate-50 leading-tight  hover:shadow-outline active:shadow-lg"
+              disabled={formik.isSubmitting}
+            >
               Withdraw
             </button>
           </Link>

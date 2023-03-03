@@ -63,14 +63,6 @@ export default function started() {
     }
   };
 
-  //  const handleConnect = async () => {
-  //    try {
-  //      const accounts = await window.klaytn.getAccounts();
-  //      setAccount(accounts[0]);
-  //    } catch (error) {
-  //      console.error(error);
-  //    }
-  //  };
 
   const handleDisconnect = async () => {
     if (typeof window.ethereum !== "undefined") {
