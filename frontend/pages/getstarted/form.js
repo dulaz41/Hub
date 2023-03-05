@@ -97,14 +97,14 @@ const Form = () => {
             // deploying
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
-            console.log(signer);
+            // console.log(signer);
             //import nft from "./utils/MinHub.json";
             const minHubContract = new ethers.ContractFactory(
               nft.abi,
               nft.object,
               signer
             );
-            console.log("Created Contract");
+            // console.log("Created Contract");
             const minHub = await minHubContract.deploy(
               name,
               token,
@@ -112,10 +112,10 @@ const Form = () => {
               metadata.url
             );
 
-            console.log("Awaiting deploy");
+            // console.log("Awaiting deploy");
             await minHub.deployed();
-            console.log("Deployed");
-            console.log(minHub.address);
+            // console.log("Deployed");
+            // console.log(minHub.address);
             setNftAddress(minHub.address);
           } catch (err) {
             console.log(err);
@@ -125,9 +125,9 @@ const Form = () => {
           window.alert("Please connect Metamask");
         }
 
-        console.log(metadata.url);
+        // console.log(metadata);
         await setStatus("Upload successful");
-        setMetadata(metadata);
+        setMetadata(metadata.ipnft);
         setName(metadata.data.name);
         setToken(metadata.data.token);
 

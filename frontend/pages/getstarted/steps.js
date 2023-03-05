@@ -39,8 +39,8 @@ export function Step1({ formik }) {
             Token Symbol
           </label>
           <p className="text-sm text-slate-400 my-2">
-            This is the token symbol for your project. For example; +KLAY+,
-            +NFT(KIP17/KIP37)+, +TKN+
+            This is the token symbol for your project. For example; +FTM+,
+            +NFT(FTM17/FTM37)+, +FKM+
           </p>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-600 leading-tight focus:outline-none focus:shadow-outline"
@@ -544,15 +544,15 @@ export function Step7({ metadata, token, name, nftAddress, formik }) {
               Token Symbol
             </h3>
             <p className="text-sm text-slate-50 my-2 mx-4 text-left">{token}</p>
-            <h3 className="text-md text-slate-400 pb-3 pt-3 my-2">
+            <h3 className="text-md text-slate-400 pb-7 pt-3 my-2">
               Metadata URL
             </h3>
             <a
               target="_blank"
-              href={`https://ipfs.io/${metadata.url}`}
-              className="text-xs text-slate-50 pt-4 text-left hover:underline hover:text-blue-600"
+              href={`https://ipfs.io/ipfs/${metadata}/metadata.json`}
+              className="text-xs text-slate-50 pt-6 text-left hover:underline hover:text-blue-600"
             >
-              {metadata.url}
+              {`https://ipfs.io/ipfs/${metadata}`}
             </a>
           </div>
         </div>
