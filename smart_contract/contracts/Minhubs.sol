@@ -11,15 +11,15 @@ contract MinHubs {
         string uri;
     }
 
-    mapping (address => Project) public projects;
+    mapping (address => Project[]) public projects;
 
 
     function addProject(
-        string _name, 
-        string _symbol,
-        uint _price,
+        string memory _name, 
+        string memory _symbol,
+        uint256 _price,
         address _contractAddress,
-        string _uri ) public {
+        string memory _uri ) public {
 
             Project memory newProject;
             newProject.name = _name;
@@ -29,13 +29,18 @@ contract MinHubs {
             newProject.owner = msg.sender;
             newProject.uri = _uri;
 
-            projects[msg.sender] = newProject;
+            projects[msg.sender].push(newProject);
 
         }
     
-    function viewProjects() public view returns(Project[] memory) {
-        return projects[msg.sender]
+    function noOfProjects() public view returns(uint) {
+        //Projects[] memory allProjects = new Projects;
+        return projects[msg.sender].length;
+    }
 
+    function viewProjects() public view returns(Project[] memory) {
+        //Projects[] memory allProjects = new Projects;
+        return projects[msg.sender];
     }
 }
 
