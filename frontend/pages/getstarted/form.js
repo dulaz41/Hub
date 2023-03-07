@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import * as yup from "yup";
 import { ContractFactory, ethers } from "ethers";
 import nft from "../../utils/MinHub.json";
+import addProject from "../api/minhub";
 
 const features = {
   categories: [
@@ -97,14 +98,14 @@ const Form = () => {
             // deploying
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
-            // console.log(signer);
+            console.log(signer);
             //import nft from "./utils/MinHub.json";
             const minHubContract = new ethers.ContractFactory(
               nft.abi,
               nft.object,
               signer
             );
-            // console.log("Created Contract");
+            console.log("Created Contract");
             const minHub = await minHubContract.deploy(
               name,
               token,
@@ -114,9 +115,12 @@ const Form = () => {
 
             // console.log("Awaiting deploy");
             await minHub.deployed();
-            // console.log("Deployed");
-            // console.log(minHub.address);
+            console.log("Deployed");
+            console.log(minHub.address);
             setNftAddress(minHub.address);
+            console.log(`${name}, ${token}, ${metadata.url}` )
+            await addProject(name, token, 1, metadata.url);
+            console.log("Added");
           } catch (err) {
             console.log(err);
           }

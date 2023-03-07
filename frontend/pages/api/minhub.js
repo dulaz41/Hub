@@ -1,3 +1,5 @@
+import { ContractFactory, ethers } from "ethers";
+
 const projectStruct = "(string name , string symbol ,uint price, address contractAddress, address owner, string uri)"
 const abi = [
     "function addProject(string memory _name, string memory _symbol, uint256 _price, address _contractAddress, string memory _uri )  public",
@@ -22,9 +24,9 @@ const getContract = async() => {
       }
 }
 
-const addProject = async() => {
+export default async function addProject (name, symbol, price, uri) {
     const minHubContract = await getContract();
-    var tx = await minHubContract.addProject("Polkadot", "PQT", 10000, contractAddr, "https://www.google.com");
+    var tx = await minHubContract.addProject(name, symbol, price, contractAddr, uri);
     await tx.wait();
     window.alert("Your project has been created!!!");
 }
