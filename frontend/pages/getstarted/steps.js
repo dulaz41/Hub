@@ -2,6 +2,7 @@ import Link from "next/link";
 import pinata from "./images/pinata.png";
 import NFTstorage from "./images/NFTstorage.png";
 import Image from "next/image";
+import { viewProjects, noOfProjects } from "../api/minhub";
 
 export function Step1({ formik }) {
   return (
@@ -510,7 +511,14 @@ export function Step6({ setCurrentStep, nftAddress, formik }) {
   );
 }
 
-export function Step7({ metadata, token, name, nftAddress, formik }) {
+export function Step7({
+  metadata,
+  token,
+  name,
+  nftAddress,
+  formik,
+  setCurrentStep,
+}) {
   return (
     <>
       <h1 className="text-4xl text-slate-50 font-medium mb-4 ml-4 -mt-5">
@@ -574,11 +582,52 @@ export function Step7({ metadata, token, name, nftAddress, formik }) {
             </button>
           </Link>
         </div>
+        <div className="mb-4 mt-12 ">
+          <h3 className="block text-slate-200 text-xl font-bold mb-2">
+            Project
+          </h3>
+          <hr className="w-96 border-2 border-slate-200" />
+          <button
+            className="shadow-md active:bg-white active:text-blue-600 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-medium text-slate-50 leading-tight  hover:shadow-outline active:shadow-lg"
+            disabled={formik.isSubmitting}
+            onClick={() => setCurrentStep(8)}
+          >
+            Project
+          </button>
+        </div>
       </div>
     </>
   );
 }
+
 export function Step8() {
+  return (
+    <>
+      <h1 className="text-4xl text-slate-100 font-medium mb-4 ml-4 -mt-5">
+        Projects
+      </h1>
+      <p className="block text-slate-400 text-sm font-bold mb-2">
+        Modify the settings below to change the presentation of your mint
+        button. Embeds will only be available for the networks you have already
+        deployed your contract on.our contract on.
+      </p>
+      <div className="mb-4 mt-9 ">
+        <h3 className="text-slate-200 text-xl font-bold mb-2">View Project</h3>
+        <p className="text-slate-400 text-sm font-semibold mb-2">
+          This is the project that was deployed.
+        </p>
+        <div>
+          <h3 className="text-md text-slate-400 font-bold pt-3 mt-2">
+            {/* Project {noOfProject} */}
+          </h3>
+          {/* {viewProject} */}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function Step9() {
   return (
     <>
       <h1 className="text-4xl text-slate-100 font-medium mb-4 ml-4 -mt-5">
