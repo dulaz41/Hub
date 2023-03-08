@@ -24,14 +24,14 @@ const getContract = async() => {
       }
 }
 
-export default async function addProject (name, symbol, price, uri) {
+export async function addProject (name, symbol, price, uri) {
     const minHubContract = await getContract();
     var tx = await minHubContract.addProject(name, symbol, price, contractAddr, uri);
     await tx.wait();
     window.alert("Your project has been created!!!");
 }
 
-const viewProjects = async() => {
+export async function viewProjects() {
     const minHubContract = await getContract();
     var projects = await minHubContract.viewProjects();
     for (let i = 0; i < projects.length; i++) {
@@ -41,7 +41,7 @@ const viewProjects = async() => {
 }
 
 
-const noOfProjects = async() => {
+export async function noOfProjects() {
     const minHubContract = await getContract();
     count = await minHubContract.noOfProjects();
     console.log(count);

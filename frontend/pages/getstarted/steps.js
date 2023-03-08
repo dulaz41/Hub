@@ -2,7 +2,8 @@ import Link from "next/link";
 import pinata from "./images/pinata.png";
 import NFTstorage from "./images/NFTstorage.png";
 import Image from "next/image";
-import { viewProjects, noOfProjects } from "../api/minhub";
+import {viewProjects, noOfProjects } from "../api/minhub";
+
 
 export function Step1({ formik }) {
   return (
@@ -600,7 +601,12 @@ export function Step7({
   );
 }
 
+
+//const n_projects = await noOfProjects();
+//const projects = await viewProjects();
 export function Step8() {
+  //console.log(n_projects);
+  //console.log(projects);
   return (
     <>
       <h1 className="text-4xl text-slate-100 font-medium mb-4 ml-4 -mt-5">
@@ -618,7 +624,7 @@ export function Step8() {
         </p>
         <div>
           <h3 className="text-md text-slate-400 font-bold pt-3 mt-2">
-            {/* Project {noOfProject} */}
+          
           </h3>
           {/* {viewProject} */}
         </div>
