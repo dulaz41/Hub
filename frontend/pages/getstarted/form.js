@@ -8,6 +8,7 @@ import {
   Step6,
   Step7,
   Step8,
+  Step9,
 } from "./steps";
 import Link from "next/link";
 import { useFormik } from "formik";
@@ -16,7 +17,7 @@ import { useRouter } from "next/router";
 import * as yup from "yup";
 import { ContractFactory, ethers } from "ethers";
 import nft from "../../utils/MinHub.json";
-import addProject from "../api/minhub";
+import { addProject } from "../api/minhub";
 
 const features = {
   categories: [
@@ -44,6 +45,7 @@ const Form = () => {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
   const [nftAddress, setNftAddress] = useState("");
+  // const [viewProject, setViewProject] = useState([]);
 
   const router = useRouter();
 
@@ -80,6 +82,8 @@ const Form = () => {
     validationSchema: userSchema,
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
+        const addProjects = addProject;
+        // const viewProject = viewProjects
         const NFT_STORAGE_TOKEN =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDdjMTVkRTM4NUU0Mzc1M0RBODNGZUE0NjgzZkZhMzc4RTFjZTUyZjEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODk3NjUxMTc3NCwibmFtZSI6IkRvY1QifQ.t7bF1OuxuS6S9QMP_rfl72fYMneOa1jzs-mZhdjEhog";
         const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
@@ -118,8 +122,8 @@ const Form = () => {
             console.log("Deployed");
             console.log(minHub.address);
             setNftAddress(minHub.address);
-            console.log(`${name}, ${token}, ${metadata.url}` )
-            await addProject(name, token, 1, metadata.url);
+            console.log(`${name}, ${token}, ${metadata.url}`);
+            await addProjects(name, token, 1, metadata.url);
             console.log("Added");
           } catch (err) {
             console.log(err);
@@ -134,7 +138,7 @@ const Form = () => {
         setMetadata(metadata.ipnft);
         setName(metadata.data.name);
         setToken(metadata.data.token);
-
+        // setViewProject(viewProject);
         setCurrentStep(6);
       } catch (error) {
         console.error(error);
@@ -162,9 +166,9 @@ const Form = () => {
             <p className="text-green-400 flex justify-center mr-28 text-xl">
               {formik.status}
             </p>
-            <p className="text-green-400 flex justify-center mr-28 absolute right-[330px] -bottom-32 text-xl">
+            {/* <p className="text-green-400 flex justify-center mr-28 absolute right-[330px] -bottom-32 text-xl">
               {formik.status}
-            </p>
+            </p> */}
           </>
         )}
         <Link href="/" className="mr-3">
@@ -282,15 +286,25 @@ const Form = () => {
                       } cursor-pointer py-3 px-10 -m-2  p-2 flex justify-center font-medium  text-slate-100`}
                       onClick={() => setCurrentStep(8)}
                     >
+                      Project
+                    </li>
+                    <li
+                      className={`${
+                        currentStep === 9
+                          ? " text-slate-300 text-xl font-semibold border rounded-md active:border"
+                          : "text-slate-100 text-xl "
+                      } cursor-pointer py-3 px-10 -m-2  p-2 flex justify-center font-medium  text-slate-100`}
+                      onClick={() => setCurrentStep(9)}
+                    >
                       Mint
                     </li>
                     <li
                       className={`${
-                        currentStep === 8
+                        currentStep === 9
                           ? "active:bg-slate-100 bg-slate-100 text-slate-700 font-bold border rounded-md active:border"
                           : "text-slate-400"
                       } cursor-pointer py-3 px-10 -m-2  p-2 flex justify-center font-medium  text-slate-100`}
-                      onClick={() => setCurrentStep(8)}
+                      onClick={() => setCurrentStep(9)}
                     >
                       Button Settings
                     </li>
@@ -340,9 +354,11 @@ const Form = () => {
               name={name}
               token={token}
               formik={formik}
+              setCurrentStep={setCurrentStep}
             />
           )}
           {currentStep === 8 && <Step8 />}
+          {currentStep === 9 && <Step9 />}
 
           <div className="flex justify-between items-center  mt-14">
             {currentStep > 1 && (
