@@ -102,7 +102,7 @@ export default function started() {
           Projects
         </h2>
       </div>
-      <div className="flex items-center justify-center mt-12 mx-auto text-center">
+      <div className="flex items-center justify-center  mt-12 mx-auto text-center">
         <Link
           href={isConnected ? "/getstarted/form" : "#"}
           legacyBehavior
@@ -121,9 +121,27 @@ export default function started() {
             </button>
           </a>
         </Link>
+        <Link
+          href={isConnected ? "/getstarted/project" : "#"}
+          legacyBehavior
+          passHref
+        >
+          <a>
+            <button
+              onClick={() => {
+                if (!isConnected) {
+                  alert("Please connect to your wallet before you proceed");
+                }
+              }}
+              className=" mx-auto text-center w-44 justify-center items-center rounded-md border border-transparent bg-blue-600 py-4 px-4 text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ml-8 focus:ring-offset-2"
+            >
+              View Project
+            </button>
+          </a>
+        </Link>
       </div>
       <p className="mx-auto pl-2 mt-6 max-w-2xl text-center font-bold text-lg leading-8 text-gray-600">
-        Click on "Add new project" button to create new ERC17/ERC37 (NFT)
+        Click on "Add new project" button to create new ERC20/ERC217 (NFT)
         Collection
       </p>
       <div className=" flex items-center mt-8">

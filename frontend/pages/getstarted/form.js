@@ -278,7 +278,7 @@ const Form = () => {
                     >
                       Testnet confirm
                     </li>
-                    <li
+                    {/* <li
                       className={`${
                         currentStep === 8
                           ? " text-slate-300 text-xl font-semibold border rounded-md active:border"
@@ -287,7 +287,7 @@ const Form = () => {
                       onClick={() => setCurrentStep(8)}
                     >
                       Project
-                    </li>
+                    </li> */}
                     <li
                       className={`${
                         currentStep === 9
@@ -357,7 +357,7 @@ const Form = () => {
               setCurrentStep={setCurrentStep}
             />
           )}
-          {currentStep === 8 && <Step8 />}
+          {/* {currentStep === 8 && <Step8 />} */}
           {currentStep === 9 && <Step9 />}
 
           <div className="flex justify-between items-center  mt-14">
